@@ -1,0 +1,11 @@
+-- Show all databases
+SHOW DATABASES;
+
+-- Use a specific database
+USE demo1;
+
+-- Show all tables in current database
+SHOW TABLES;
+
+-- Describe table structure
+DESC employee1;
