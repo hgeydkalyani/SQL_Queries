@@ -9,3 +9,105 @@ SHOW TABLES;
 
 -- Describe table structure
 DESC employee1;
+2. Create Table
+CREATE TABLE employee1 (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    age INT,
+    email VARCHAR(100),
+    phoneNo BIGINT,
+    gender VARCHAR(10),
+    state VARCHAR(50),
+    country VARCHAR(50),
+    address VARCHAR(100),
+    department VARCHAR(50),
+    role VARCHAR(50),
+    exp INT,
+    sal DECIMAL(10,2)
+);
+--- To insert data into table
+INSERT INTO employee1 (id, name, age, email, phoneNo, gender, state, country, address, department, role, exp, sal)
+VALUES (1, 'Kalyani Wasane', 22, 'kalyani@123.com', 9876543210, 'Female', 'MP', 'India', 'Indore', 'IT', 'Developer', 1, 25000.00);
+
+-- All records
+SELECT * FROM employee1;
+
+-- Specific columns
+SELECT name, email, sal FROM employee1;
+
+-- With condition
+SELECT * FROM employee1 WHERE state = 'MP';
+
+-- With sorting
+SELECT * FROM employee1 ORDER BY sal DESC;
+
+--update data 
+UPDATE employee1
+SET sal = 30000, role = 'Senior Developer'
+WHERE id = 1;
+--delect the table
+--delect by specific values
+DELETE FROM employee1 WHERE id = 1;
+
+-- Delete all rows but keep table
+TRUNCATE TABLE employee1;
+
+-- Drop (delete) table completely
+DROP TABLE employee1;
+
+ --Filtering with WHERE from specific value
+SELECT * FROM employee1 WHERE age > 25;
+--Filtering with WHERE by using between constaint
+SELECT * FROM employee1 WHERE sal BETWEEN 20000 AND 50000;
+--Filtering with WHERE by using in constaint
+SELECT * FROM employee1 WHERE state IN ('MP', 'MH', 'UP');
+--Filtering with WHERE by using in like operator
+SELECT * FROM employee1 WHERE name LIKE 'K%';  -- starts with K
+
+
+--Aggregate Functions
+SELECT COUNT(*) FROM employee1;      -- number of rows
+SELECT MAX(sal) FROM employee1;      -- highest salary
+SELECT MIN(sal) FROM employee1;      -- lowest salary
+SELECT AVG(sal) FROM employee1;      -- average salary
+SELECT SUM(sal) FROM employee1;      -- total salary
+
+--Group By & Having
+-- Salary by department
+SELECT department, AVG(sal) AS avg_salary
+FROM employee1
+GROUP BY department;
+
+-- Departments with avg salary > 30000
+SELECT department, AVG(sal) AS avg_salary
+FROM employee1
+GROUP BY department
+HAVING AVG(sal) > 30000;
+
+--Joins
+CREATE TABLE department (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50)
+);
+--Inner Join
+SELECT e.name, e.role, d.dept_name
+FROM employee1 e
+INNER JOIN department d ON e.department = d.dept_id;
+--Left Join
+SELECT e.name, d.dept_name
+FROM employee1 e
+LEFT JOIN department d ON e.department = d.dept_id;
+
+
+--Subquery
+-- Employees with salary greater than average
+SELECT * FROM employee1
+WHERE sal > (SELECT AVG(sal) FROM employee1);
+
+--Constraints
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    age INT CHECK(age >= 18)
+);
